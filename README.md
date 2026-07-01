@@ -8,10 +8,12 @@ Biến 100 ý tưởng tính năng của ISA thành một kế hoạch execution
 
 | Block | Câu hỏi | Framework | File |
 |---|---|---|---|
-| 1 | Làm **gì** trước? | RICE + 2×2 Value-Effort | [`workshop1-rice.md`](workshop1-rice.md) |
-| 2 | Làm **khi nào**? | Now / Next / Later | [`workshop2-now-next-later.md`](workshop2-now-next-later.md) |
-| 3 | **Đo** bằng gì? | OKR (Objective + 3 KR) | [`workshop3-okrs.md`](workshop3-okrs.md) |
-| 4 | **Rủi ro** ở đâu? | Dependency Map + Critical Path | [`workshop4-dependency-critical-path.md`](workshop4-dependency-critical-path.md) |
+| 1 | Làm **gì** trước? | RICE + 2×2 Value-Effort | [`rice_matrix.md`](rice_matrix.md) |
+| 2 | Làm **khi nào**? | Now / Next / Later | [`roadmap_nnl.md`](roadmap_nnl.md) |
+| 3 | **Đo** bằng gì? | OKR (Objective + 3 KR) | [`okrs.md`](okrs.md) |
+| 4 | **Rủi ro** ở đâu? | Dependency Map + Critical Path | [`dependency_map.md`](dependency_map.md) |
+
+> Tên file theo đúng convention slide Submission (trang 33): `rice_matrix.md` · `roadmap_nnl.md` · `okrs.md` · `dependency_map.md`.
 
 ## Slide trình bày
 - [`demo.html`](demo.html) — deck 10 trang (left panel TOC, ← → / phím mũi tên).
