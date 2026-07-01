@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 25 — Roadmap & Execution: RICE · Now/Next/Later · OKR · Dependency (ISA)</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#161c24; --card:#1c242e; --line:#2a3340;
+    --ink:#e8edf2; --muted:#9aa7b4; --accent:#4f9d8c; --accent2:#e08a5b;
+    --low:#6b7785; --med:#d9a441; --high:#e0794a; --crit:#d4504e;
+    --now:#4f9d8c; --next:#d9a441; --later:#c86f9e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+    background:var(--bg);color:var(--ink);display:flex;height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased}
+  .sidebar{width:290px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:22px 0}
+  .brand{padding:0 22px 18px;border-bottom:1px solid var(--line)}
+  .brand h1{font-size:15px;letter-spacing:.3px}
+  .brand .sub{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}
+  .toc{list-style:none;overflow-y:auto;padding:12px 12px;flex:1}
+  .toc li{padding:9px 14px;margin:2px 0;border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer;display:flex;gap:10px;align-items:center;transition:.15s;line-height:1.35}
+  .toc li:hover{background:#1f2731;color:var(--ink)}
+  .toc li.active{background:linear-gradient(90deg,rgba(79,157,140,.22),transparent);color:#fff;font-weight:600}
+  .toc li.active .num{background:var(--accent);color:#0f1419}
+  .toc .num{width:22px;height:22px;flex-shrink:0;border-radius:6px;background:#28313c;color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .foot{padding:14px 22px 2px;font-size:11px;color:var(--muted);border-top:1px solid var(--line)}
+  .stage{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+  .slidewrap{flex:1;overflow-y:auto;padding:50px 60px;display:flex}
+  .slide{display:none;width:100%;max-width:1020px;margin:auto;animation:fade .35s ease}
+  .slide.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .kicker{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px}
+  h2{font-size:29px;line-height:1.2;margin-bottom:8px;letter-spacing:-.4px}
+  .lead{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:24px;max-width:800px}
+  h3{font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin:20px 0 12px}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card h4{font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .card p{font-size:13px;color:var(--muted);line-height:1.6}
+  .card .big{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
+  .card ul{margin:6px 0 0 2px;list-style:none}
+  .card li{font-size:12.5px;color:var(--muted);line-height:1.6;padding-left:15px;position:relative}
+  .card li:before{content:"›";position:absolute;left:0;color:var(--accent)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+  th{color:var(--accent2);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+  td{color:var(--muted)} td b,td strong{color:var(--ink)}
+  tr:last-child td{border-bottom:none}
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;color:#0f1419}
+  .b-low{background:var(--low);color:#fff}.b-med{background:var(--med)}.b-high{background:var(--high)}.b-crit{background:var(--crit);color:#fff}
+  .tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;background:#28313c;color:var(--ink);margin:3px 4px 0 0}
+  .flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0}
+  .flow .step{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:12px;font-weight:600}
+  .flow .step.crit{border-color:var(--crit);color:#f0a3a1}
+  .flow .arrow{color:var(--accent);font-weight:700}
+  .src{font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:8px}
+  .pill{display:inline-block;background:#28313c;border-radius:6px;padding:2px 8px;font-size:11px;color:var(--ink);font-family:ui-monospace,monospace}
+  .hl{color:#fff;font-weight:700}
+  .quote{border-left:3px solid var(--accent2);padding:8px 16px;font-style:italic;color:var(--ink);background:rgba(224,138,91,.07);border-radius:0 8px 8px 0;font-size:14px;line-height:1.6}
+  .nav{height:62px;flex-shrink:0;border-top:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+  .nav button{background:var(--card);border:1px solid var(--line);color:var(--ink);font-size:14px;padding:9px 18px;border-radius:9px;cursor:pointer;font-weight:600;transition:.15s}
+  .nav button:hover:not(:disabled){background:var(--accent);color:#0f1419;border-color:var(--accent)}
+  .nav button:disabled{opacity:.35;cursor:not-allowed}
+  .counter{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .bar{position:absolute;top:0;left:0;right:0;height:3px;background:var(--line)}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.3s}
+  .nnl{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .nnl .col{border-radius:12px;padding:14px 16px;border:1px solid var(--line);background:var(--card)}
+  .nnl .col.now{border-top:3px solid var(--now)} .nnl .col.next{border-top:3px solid var(--next)} .nnl .col.later{border-top:3px solid var(--later)}
+  .nnl h4{font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+  .nnl .now h4{color:#86d6c4}.nnl .next h4{color:#e6c26e}.nnl .later h4{color:#e0a3c8}
+  .nnl .sub{font-size:11px;color:var(--muted);margin-bottom:10px}
+  .nnl p{font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:10px}
+  .nnl b{color:var(--ink)}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand">
+    <h1>Roadmap & Execution</h1>
+    <div class="sub">Day 25 · Track 1 — RICE · Now/Next/Later · OKR · Dependency<br>Sản phẩm: <b style="color:#86d6c4">ISA</b> (Trợ lý SV quốc tế)</div>
+  </div>
+  <ul class="toc" id="toc"></ul>
+  <div class="foot">Đỗ Việt Anh · 2A202601008</div>
+</aside>
+
+<main class="stage">
+  <div class="bar"><i id="bar"></i></div>
+  <div class="slidewrap">
+
+    <!-- 1 -->
+    <section class="slide show" data-title="Tiêu đề">
+      <div class="kicker">AI in Action · Day 25 · Track 1</div>
+      <h2>Có tiền, có PRD — đi đâu trước? Làm gì trước?</h2>
+      <p class="lead">Biến 100 ý tưởng tính năng của <b style="color:#e8edf2">ISA</b> thành một kế hoạch execution defendable trước nhà đầu tư: <b>chọn — sắp xếp — đo — phòng rủi ro.</b></p>
+      <div class="grid g2" style="grid-template-columns:repeat(4,1fr)">
+        <div class="card"><h4>① RICE</h4><p>Làm gì trước?</p></div>
+        <div class="card"><h4>② Now/Next/Later</h4><p>Làm khi nào?</p></div>
+        <div class="card"><h4>③ OKR</h4><p>Đo bằng gì?</p></div>
+        <div class="card"><h4>④ Dependency</h4><p>Rủi ro ở đâu?</p></div>
+      </div>
+      <div class="quote" style="margin-top:20px">“Vision without execution is just hallucination.” — Thomas Edison</div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" data-title="Output vs Outcome">
+      <div class="kicker">Căn bệnh của founder tech</div>
+      <h2>Đo bằng Outcome, không phải Output</h2>
+      <div class="grid g2">
+        <div class="card" style="border-left:3px solid var(--crit)"><h4>❌ Output (VC không quan tâm)</h4><ul>
+          <li>“Ship 12 tính năng tháng này”</li><li>“Model accuracy 99.7%”</li><li>“Code coverage 95%”</li></ul>
+          <p style="margin-top:8px"><i>→ Không trả lời được: ai dùng? giá trị gì?</i></p></div>
+        <div class="card" style="border-left:3px solid var(--accent)"><h4>✅ Outcome (ngôn ngữ business)</h4><ul>
+          <li>“User tiết kiệm 1.7 giờ/ngày”</li><li>“Churn giảm 8% sau 3 tháng”</li><li>“50 paying customer mới”</li></ul>
+          <p style="margin-top:8px"><i>→ Số liệu defendable.</i></p></div>
+      </div>
+      <p class="src">Cả 4 framework hôm nay đều kéo roadmap về <b style="color:#86d6c4">outcome</b> — không phải đếm việc đã làm.</p>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" data-title="① RICE — cách chấm">
+      <div class="kicker">Block 1 · RICE</div>
+      <h2>Biến cảm tính thành toán học</h2>
+      <div class="flow" style="font-size:20px;margin:6px 0 14px"><span class="hl">Score = (Reach × Impact × Confidence) / Effort</span></div>
+      <table>
+        <tr><th>Yếu tố</th><th>Câu hỏi</th><th>Đơn vị</th></tr>
+        <tr><td><b>Reach</b></td><td>Bao nhiêu user/quý đụng?</td><td>số người</td></tr>
+        <tr><td><b>Impact</b></td><td>Tác động mạnh cỡ nào?</td><td>0.25 / 0.5 / 1 / 2 / 3</td></tr>
+        <tr><td><b>Confidence</b></td><td>Tự tin về số bao nhiêu %?</td><td>50 / 80 / 100%</td></tr>
+        <tr><td><b>Effort</b></td><td>Tốn bao nhiêu?</td><td>person-month</td></tr>
+      </table>
+      <p class="src"><b style="color:#f0b496">3 luật chấm thật đã áp dụng:</b> Reach <b>×0.5</b> (đừng lạc quan) · Effort <b>×1.5</b> (QA+bug luôn đội) · Confidence <b>≤50%</b> nếu chưa test user — ISA chưa có user thật.</p>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide" data-title="① RICE — bảng điểm">
+      <div class="kicker">Block 1 · Kết quả</div>
+      <h2>RICE cho 5 tính năng cốt lõi của ISA</h2>
+      <table>
+        <tr><th>Tính năng</th><th>R/quý</th><th>I</th><th>C</th><th>E</th><th>Score</th></tr>
+        <tr><td><b>F2 — Guardrail + Escalation</b> (visa→người thật)</td><td>90</td><td>3</td><td>0.8</td><td>2.3</td><td><span class="badge b-high">94</span></td></tr>
+        <tr><td><b>F5 — Onboarding + Danh bạ</b></td><td>125</td><td>1</td><td>0.8</td><td>1.2</td><td><span class="badge b-high">83</span></td></tr>
+        <tr><td><b>U6 — Đa ngôn ngữ</b></td><td>100</td><td>0.5</td><td>0.8</td><td>0.6</td><td><span class="badge b-med">67</span></td></tr>
+        <tr><td><b>F1 — RAG + trích dẫn</b></td><td>150</td><td>2</td><td>0.5</td><td>3.8</td><td><span class="badge b-med">39</span></td></tr>
+        <tr><td><b>U16 — Thích nghi văn hóa</b></td><td>40</td><td>0.5</td><td>0.5</td><td>3.8</td><td><span class="badge b-low">2.6</span></td></tr>
+      </table>
+      <p class="src"><b>Loại khỏi bảng có chủ đích:</b> F4 Admin-KB & F6 Eval là enabler nội bộ → RICE định giá thấp sai lệch (giới hạn RICE với infra). <b style="color:#f0b496">Nghịch lý:</b> F1 (moat) value cao nhưng effort lớn → điểm thấp; thứ rẻ-hữu-ích leo top.</p>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" data-title="① 2×2 Value-Effort">
+      <div class="kicker">Block 1 · Ném vào 4 ô</div>
+      <h2>2×2 Value–Effort → 3 chỉ định</h2>
+      <div class="grid g2">
+        <div class="card" style="border-top:3px solid var(--accent)"><h4>✅ Quick Wins (làm ngay)</h4><p><b class="hl">F2</b> Guardrail+Escalation · <b class="hl">F5</b> Onboarding+Danh bạ — value cao, effort thấp.</p></div>
+        <div class="card" style="border-top:3px solid var(--crit)"><h4>🏰 Strategic Bets (moat)</h4><p><b class="hl">F1</b> RAG + citations — effort cao, nhưng là con hào vs ChatGPT.</p></div>
+        <div class="card" style="border-top:3px solid var(--med)"><h4>🧩 Fill-ins (khi rảnh)</h4><p><b class="hl">U6</b> Đa ngôn ngữ — value thấp, gần free (LLM lo).</p></div>
+        <div class="card" style="border-top:3px solid var(--low)"><h4>❌ Non-starters (bỏ)</h4><p><b class="hl">U16</b> Thích nghi văn hóa — value thấp, effort cao. Cắt.</p></div>
+      </div>
+      <p class="src"><b style="color:#86d6c4">Quick Win làm trước → F2</b> (de-risk job visa) · <b style="color:#f0a3a1">Strategic Bet → F1</b> (moat grounding) · <b>Non-starter bỏ → U16</b>.</p>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" data-title="② Now / Next / Later">
+      <div class="kicker">Block 2 · Roadmap</div>
+      <h2>Now / Next / Later — mỗi ô là một VẤN ĐỀ</h2>
+      <div class="nnl">
+        <div class="col now"><h4>NOW</h4><div class="sub">rủi ro thấp · specs rõ</div>
+          <p>① Câu hỏi <b>visa/pháp lý</b> không được bịa, luôn có lối thoát người thật <span class="pill">F2</span></p>
+          <p>② SV mới <b>mất phương hướng</b>: làm gì trước, liên hệ ai <span class="pill">F5</span></p>
+          <p><i>(phụ) rào cản ngôn ngữ — gần free</i> <span class="pill">U6</span></p></div>
+        <div class="col next"><h4>NEXT</h4><div class="sub">có thể đổi theo thị trường</div>
+          <p>③ Trả lời <b>đúng & có nguồn</b> cho phổ câu hỏi rộng <span class="pill">F1</span></p>
+          <p>④ Nội dung <b>không lỗi thời</b> khi quy định đổi <span class="pill">F4</span></p>
+          <p>⑤ Biết AI <b>đủ tốt/an toàn</b> để tin & mở rộng <span class="pill">F6</span></p></div>
+        <div class="col later"><h4>LATER</h4><div class="sub">vision · có thể bỏ</div>
+          <p>⑥ Vượt khỏi “3 tháng đầu” → trợ lý <b>toàn vòng đời & chủ động</b></p>
+          <p>⑦ <b>Phân phối chính thức</b>: tích hợp CTSV để rút ngắn xử lý thủ tục</p></div>
+      </div>
+      <p class="src">KHÔNG ngày tháng — chỉ thứ tự ưu tiên. <b>F4/F6 quay lại ở NEXT dạng vấn đề</b> → roadmap sửa điểm mù của RICE.</p>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" data-title="③ OKR cho NOW">
+      <div class="kicker">Block 3 · OKR</div>
+      <h2>Đo cột NOW bằng Outcome</h2>
+      <div class="card" style="border-left:3px solid var(--accent);margin-bottom:14px"><h4>🎯 Objective</h4>
+        <p style="font-size:15px;color:var(--ink)"><i>“SV quốc tế năm nhất tự tin xử lý đúng thủ tục quan trọng ngay từ ngày đầu — không lạc lối, không sợ làm sai visa.”</i></p></div>
+      <div class="grid g3">
+        <div class="card"><h4>KR1 · Leading</h4><p><b class="hl">≥ 60%</b> SV quốc tế năm nhất dùng ISA ≥1 lần trong <b>2 tuần đầu</b> để tra thủ tục.</p></div>
+        <div class="card"><h4>KR2 · Lagging</h4><p>Giảm <b class="hl">≥ 40%</b> câu hỏi thủ tục lặp mà <b>Phòng CTSV phải trả lời tay</b> (deflection).</p></div>
+        <div class="card"><h4>KR3 · Quality</h4><p><b class="hl">NPS ≥ 40</b>; và <b>100%</b> câu hỏi visa/pháp lý chuyển người thật đúng lúc (0 ca AI tự phán).</p></div>
+      </div>
+      <p class="src">Không từ kỹ thuật, không đo Output. ISA phi lợi nhuận → thay MRR bằng <b style="color:#86d6c4">deflection</b> (giá trị thật cho nhà trường — khách hàng thật).</p>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" data-title="④ Dependency Map">
+      <div class="kicker">Block 4 · Cạm bẫy ký sinh</div>
+      <h2>“Nếu OpenAI sập ngày mai, ISA còn chạy?”</h2>
+      <table>
+        <tr><th>Tier</th><th>Dependency</th><th>Worst-case</th><th>Plan B (≤7 ngày)</th></tr>
+        <tr><td><span class="badge b-crit">1</span></td><td><b>LLM API</b> (Anthropic/OpenAI)</td><td>Rate-limit/khóa/tăng giá 5× → product down</td><td>Abstraction layer <b>đa nhà cung cấp</b> (Claude↔Gemini/GPT)</td></tr>
+        <tr><td><span class="badge b-crit">1</span></td><td><b>Hosting/Cloud</b> (free tier)</td><td>Hết free tier / region down → offline</td><td>Container <b>portable</b>, redeploy Render/Fly/VPS</td></tr>
+        <tr><td><span class="badge b-high">2</span></td><td><b>Nguồn tài liệu chính thức</b> (KB)</td><td>Nguồn đổi/đóng → KB lỗi thời (“sai có thẩm quyền”)</td><td>Snapshot + <span class="pill">updated_at</span>; admin xác minh; feed CTSV</td></tr>
+      </table>
+      <p class="src"><b>Quy tắc:</b> mỗi Tier-1 phải có Plan B deploy trong 24h — không có Plan B thì “không phải startup, là kinh doanh nhà thuê”. Case 4: startup chết vì OpenAI siết rate-limit đúng ngày launch.</p>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide" data-title="④ Critical Path">
+      <div class="kicker">Block 4 · Đường găng</div>
+      <h2>Critical Path cho cột NOW</h2>
+      <div class="flow" style="margin:10px 0">
+        <span class="step crit">① Thu thập & xác minh KB<br><small>DATA</small></span><span class="arrow">→</span>
+        <span class="step crit">② Ranh giới pháp lý + rule escalation<br><small>LEGAL</small></span><span class="arrow">→</span>
+        <span class="step crit">③ Chat + phân loại intent</span><span class="arrow">→</span>
+        <span class="step crit">④ Guardrail + Escalation</span><span class="arrow">→</span>
+        <span class="step crit">⑤ Eval an toàn luồng visa</span><span class="arrow">→</span>
+        <span class="step crit">⑥ Deploy pilot</span>
+      </div>
+      <div class="grid g2" style="margin-top:14px">
+        <div class="card"><h4>Task phụ (có buffer, không trên đường găng)</h4><ul><li>F5 Onboarding + Danh bạ — chạy song song</li><li>U6 Đa ngôn ngữ — ship kèm</li></ul></div>
+        <div class="card" style="border-color:var(--accent2)"><h4>Insight</h4><p><b class="hl">Data + Legal Compliance</b> gần như luôn nằm trên Critical Path của AI startup — và ở ISA đúng là 2 task đầu chuỗi. Tối ưu 2 khâu này, đừng tô UI.</p></div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" data-title="Kết luận">
+      <div class="kicker">Milestone — Investor-Ready</div>
+      <h2>Day 25 đã trả lời 4 câu hỏi</h2>
+      <div class="grid g2">
+        <div class="card"><h4>① Làm gì trước?</h4><p>RICE + 2×2 → <b class="hl">F2 làm trước</b>, F1 là moat, U16 bỏ.</p></div>
+        <div class="card"><h4>② Làm khi nào?</h4><p>Now/Next/Later (vấn đề, không ngày tháng).</p></div>
+        <div class="card"><h4>③ Đo bằng gì?</h4><p>OKR outcome: adoption · deflection · NPS + an toàn.</p></div>
+        <div class="card"><h4>④ Rủi ro ở đâu?</h4><p>3 dependency + Plan B 24h · Critical Path = Data+Legal.</p></div>
+      </div>
+      <div class="quote" style="margin-top:18px">Từ ý tưởng → gói execution → vòng gọi vốn. Chúc execute không hallucinate.</div>
+    </section>
+
+  </div>
+  <nav class="nav">
+    <button id="prev">← Trước</button>
+    <span class="counter"><span id="cur">1</span> / <span id="tot">10</span></span>
+    <button id="next">Tiếp →</button>
+  </nav>
+</main>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const toc=document.getElementById('toc');let i=0;
+  slides.forEach((s,idx)=>{const li=document.createElement('li');li.innerHTML=`<span class="num">${idx+1}</span><span>${s.dataset.title}</span>`;li.onclick=()=>go(idx);toc.appendChild(li);});
+  const tocItems=[...toc.children];document.getElementById('tot').textContent=slides.length;
+  function go(n){i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,idx)=>s.classList.toggle('show',idx===i));
+    tocItems.forEach((t,idx)=>t.classList.toggle('active',idx===i));
+    document.getElementById('cur').textContent=i+1;
+    document.getElementById('prev').disabled=i===0;document.getElementById('next').disabled=i===slides.length-1;
+    document.getElementById('bar').style.width=((i+1)/slides.length*100)+'%';
+    tocItems[i].scrollIntoView({block:'nearest'});document.querySelector('.slidewrap').scrollTop=0;}
+  document.getElementById('prev').onclick=()=>go(i-1);document.getElementById('next').onclick=()=>go(i+1);
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(i+1);if(e.key==='ArrowLeft')go(i-1);});
+  go(0);
+</script>
+</body>
+</html>
