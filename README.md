@@ -15,7 +15,18 @@ Biến 100 ý tưởng tính năng của ISA thành một kế hoạch execution
 
 > Tên file theo đúng convention slide Submission (trang 33): `rice_matrix.md` · `roadmap_nnl.md` · `okrs.md` · `dependency_map.md`.
 
-## Slide trình bày
+## Gói nộp theo slide Submission (trang 33)
+| # | File | Nội dung |
+|---|---|---|
+| 1 | [`rice_matrix.md`](rice_matrix.md) | Bảng RICE 5 dòng + 2×2 |
+| 2 | [`roadmap_nnl.md`](roadmap_nnl.md) | Now/Next/Later 1 trang |
+| 3 | [`okrs.md`](okrs.md) | 1 Objective + 3 Key Results |
+| 4 | [`dependency_map.md`](dependency_map.md) | 3 dependency + Plan B + Critical Path |
+| 5 | [`milestone1_package.pdf`](milestone1_package.pdf) | **Gói 9 trang gộp Day 16–20** (Cover+Pitch · Market+JTBD · Pain+Competitor · PRD · Unit Economics · Value model · Roadmap+OKR · Dependency+Critical Path) |
+
+> `milestone1_package.pdf` dựng từ **nguyên liệu thật** (brief, user-research, JTBD Day 16, cost-report của ISA) + Roadmap/OKR/Dependency Day 25. Trang tài chính dùng **cost thật** + mô hình deflection **ghi rõ giả định** — không bịa LTV/CAC (ISA phi lợi nhuận). Source: [`milestone1_package.html`](milestone1_package.html).
+
+## Slide trình bày (bổ trợ)
 - [`demo.html`](demo.html) — deck 10 trang (left panel TOC, ← → / phím mũi tên).
 - [`Day25-slides.pdf`](Day25-slides.pdf) — bản PDF 10 trang (render từng slide → join).
 

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISA — Milestone 1 Investor Package</title>
+<style>
+  :root{
+    --ink:#1a2230; --muted:#5b6676; --line:#e2e7ee; --bg:#ffffff; --soft:#f5f7fa;
+    --accent:#1f7a68; --accent2:#c86a3a; --navy:#243043;
+    --low:#8792a3; --med:#c99a2e; --high:#cf7a45; --crit:#c8453f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{margin:0;background:#fff}
+  body{font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .page{width:100vw;height:100vh;background:var(--bg);display:none;flex-direction:column;position:relative;overflow:hidden}
+  .page.show{display:flex}
+  .head{padding:26px 54px 18px;border-bottom:2px solid var(--accent);display:flex;justify-content:space-between;align-items:flex-end}
+  .head .brand{font-size:15px;font-weight:800;letter-spacing:.5px;color:var(--navy)}
+  .head .brand span{color:var(--accent)}
+  .head .ptitle{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--muted)}
+  .body{flex:1;padding:26px 54px;overflow:hidden}
+  .foot{padding:12px 54px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+  h1{font-size:40px;line-height:1.15;color:var(--navy);letter-spacing:-.5px;margin-bottom:14px}
+  h2{font-size:26px;color:var(--navy);letter-spacing:-.3px;margin-bottom:6px}
+  .kick{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:10px}
+  h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin:0 0 8px;font-weight:800}
+  p{font-size:14px;line-height:1.6;color:var(--muted)}
+  b,strong{color:var(--ink)}
+  .grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card h3{margin-bottom:8px}
+  .card p{font-size:13px}
+  .card .big{font-size:30px;font-weight:800;color:var(--accent);letter-spacing:-.5px;line-height:1}
+  .card .big.b2{color:var(--accent2)}
+  ul{margin:4px 0 0 2px;list-style:none}
+  li{font-size:13px;line-height:1.6;color:var(--muted);padding-left:16px;position:relative;margin-bottom:2px}
+  li:before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+  th{color:var(--accent2);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:800}
+  td{color:var(--muted)} td b{color:var(--ink)}
+  tr:last-child td{border-bottom:none}
+  .tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11.5px;background:#e8eef0;color:var(--navy);margin:3px 4px 0 0;font-weight:600}
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;color:#fff}
+  .b-low{background:var(--low)}.b-med{background:var(--med)}.b-high{background:var(--high)}.b-crit{background:var(--crit)}
+  .quote{border-left:4px solid var(--accent2);padding:10px 18px;font-style:italic;color:var(--ink);background:#faf4ef;border-radius:0 8px 8px 0;font-size:15px;line-height:1.6}
+  .note{font-size:11.5px;color:var(--muted);font-style:italic;margin-top:8px}
+  .cover{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 54px}
+  .pill{display:inline-block;background:var(--accent);color:#fff;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;letter-spacing:.5px}
+  .twit{background:var(--soft);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:18px 22px;font-size:16px;line-height:1.6;color:var(--ink);max-width:1000px}
+  .flowrow{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:6px 0}
+  .flowrow .step{flex:1;min-width:150px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:12px;line-height:1.4}
+  .flowrow .step.crit{border-color:var(--crit);border-top:3px solid var(--crit)}
+  .arrow{align-self:center;color:var(--accent);font-weight:800;font-size:18px}
+  .nnl3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .nnl3 .c{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--soft)}
+  .nnl3 .c.now{border-top:3px solid var(--accent)}.nnl3 .c.next{border-top:3px solid var(--med)}.nnl3 .c.later{border-top:3px solid var(--accent2)}
+  .nnl3 h3{color:var(--navy)} .nnl3 p{font-size:12px;margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<!-- P1 Cover + Twitter Pitch -->
+<section class="page show">
+  <div class="cover">
+    <span class="pill">Milestone 1 · Investor-Ready Package</span>
+    <h1 style="margin-top:20px;font-size:52px">ISA — Trợ lý AI cho<br>Sinh viên Quốc tế</h1>
+    <p style="font-size:18px;max-width:900px;margin-bottom:24px">Tìm <b>đúng câu trả lời chính thức</b> về thủ tục / visa / học vụ trong ~30 giây, mọi lúc, bằng ngôn ngữ của bạn — và <b>biết khi nào phải gặp người thật</b>.</p>
+    <div class="twit"><b style="color:var(--accent)">Twitter pitch —</b> ISA là chatbot RAG bám <b>tài liệu chính thức</b>, luôn <b>kèm trích dẫn</b>, đa ngôn ngữ, 24/7. Luồng visa/pháp lý có <b>guardrail + chuyển người thật</b> — không bịa như ChatGPT, không cứng như FAQ bot.</div>
+    <div style="margin-top:30px;display:flex;gap:40px">
+      <div><h3>Nhóm</h3><p>Đỗ Việt Anh — Trưởng nhóm (FE/UI-UX + CI)<br>Mai Tùng — BE/AI + KB + QA/eval</p></div>
+      <div><h3>Quy mô</h3><p>2 người · 6 tuần<br>Sản phẩm exam AI20K-C2-HE-14</p></div>
+      <div><h3>Trạng thái</h3><p>Web app đã deploy · bộ eval có version<br>Chưa có đối tác thật (giả định cần validate)</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 1 / 9</span></div>
+</section>
+
+<!-- P2 Pitch Memo -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">Pitch Memo</div></div>
+  <div class="body">
+    <div class="kick">Vấn đề → Vì sao bây giờ → Giải pháp → Khác biệt</div>
+    <div class="grid g2" style="margin-bottom:16px">
+      <div class="card"><h3>Vấn đề</h3><p>SV quốc tế năm nhất (&lt;3 tháng tại VN, chưa thạo tiếng Việt) phải tự làm thủ tục cư trú/học vụ rủi ro cao, trong khi thông tin chính thức <b>rải rác bằng tiếng Việt</b> và hỗ trợ <b>chỉ giờ hành chính</b> → dễ làm sai, trễ hạn, hòa nhập chậm.</p></div>
+      <div class="card"><h3>Vì sao bây giờ</h3><p>LLM + RAG nay đủ rẻ (~$0.002/câu) và đủ tốt để bám tài liệu chính thức, trích dẫn nguồn, trả lời đa ngôn ngữ 24/7 — điều FAQ bot cứng không làm được, còn ChatGPT thuần thì dễ bịa.</p></div>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h3>Giải pháp</h3><p>Web app chatbot <b>RAG</b> trả lời từ <b>tài liệu chính thức + trích dẫn</b>, đa ngôn ngữ. Luồng visa/pháp lý có <b>guardrail + escalation</b> sang người thật. Có auth, hồ sơ user, admin KB, bộ eval có version.</p></div>
+      <div class="card" style="border-left:4px solid var(--accent)"><h3>Khác biệt (moat)</h3><p><b>“Đúng — có nguồn — biết khi nào chuyển người thật.”</b> Không phải “trả lời nhanh” (ChatGPT làm được) mà là câu trả lời <b>đáng để hành động</b> ở thủ tục rủi ro cao — nơi ChatGPT bịa và FAQ bot im lặng.</p></div>
+    </div>
+    <div class="quote" style="margin-top:16px">“Giúp SV quốc tế tìm đúng câu trả lời chính thức trong ~30 giây, bất kể giờ giấc, bằng ngôn ngữ của họ — và biết khi nào phải gặp người thật.”</div>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 2 / 9</span></div>
+</section>
+
+<!-- P3 Market & JTBD -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">Market · Jobs To Be Done</div></div>
+  <div class="body">
+    <div class="grid g2" style="margin-bottom:14px">
+      <div class="card"><h3>Job executor</h3><p><b>SV quốc tế năm nhất</b> (&lt;3 tháng tại VN) — người trực tiếp gõ câu hỏi, đọc trả lời, đi nộp hồ sơ. <i>Phòng CTSV = buyer/stakeholder giả định, không phải người làm job.</i></p></div>
+      <div class="card"><h3>Core JTBD</h3><p><b>Hoàn tất đúng một thủ tục cư trú/học vụ đúng hạn ngay khi cần</b>, dù chưa thạo tiếng Việt và phải tự xoay ngoài giờ hỗ trợ.</p></div>
+    </div>
+    <h3>3 Job stories</h3>
+    <table style="margin-bottom:12px">
+      <tr><th>When (trigger)</th><th>I want to</th><th>So I can</th></tr>
+      <tr><td>Vừa sang, phải đăng ký tạm trú trong vài ngày, hướng dẫn toàn tiếng Việt</td><td>hiểu chính xác cần nộp giấy gì, ở đâu, hạn nào</td><td>làm đúng ngay lần đầu, không bị phạt/trễ</td></tr>
+      <tr><td>Vướng mắc tối/cuối tuần khi CTSV đã đóng cửa</td><td>có câu trả lời đáng tin ngay lập tức</td><td>không chờ tới giờ hành chính & lỡ deadline</td></tr>
+      <tr><td>Không chắc thông tin trên Google/ChatGPT đúng & còn hiệu lực</td><td>thấy nguồn chính thức kèm câu trả lời</td><td>yên tâm hành động, không sợ làm sai</td></tr>
+    </table>
+    <h3>Current alternatives (đối thủ qua JTBD lens)</h3>
+    <table>
+      <tr><th>Alternative</th><th>Làm tốt</th><th>Fail ở đâu</th></tr>
+      <tr><td>ChatGPT/Claude thuần</td><td>Nhanh, đa ngôn ngữ, tự nhiên</td><td><b>Dễ bịa</b>, không bám tài liệu chính thức, không nguồn</td></tr>
+      <tr><td>Google dịch + tự lục web/PDF</td><td>Miễn phí, sẵn có</td><td>Rải rác, dịch sai, không rõ bản nào mới/chính thức</td></tr>
+      <tr><td>Phòng CTSV (giờ hành chính)</td><td>Đáng tin, xử ca khó</td><td>Chỉ giờ HC, rào cản ngôn ngữ, phải chờ</td></tr>
+    </table>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 3 / 9</span></div>
+</section>
+
+<!-- P4 Pain + Competitor + Leverage -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">Pain points · Khoảng trống thị trường</div></div>
+  <div class="body">
+    <div class="grid g2" style="margin-bottom:14px">
+      <div class="card"><h3>4 Pain points (từ nghiên cứu công khai + suy luận)</h3><ul>
+        <li>Thông tin thủ tục <b>rải rác</b>, bằng tiếng Việt</li>
+        <li>Hỗ trợ <b>chỉ giờ hành chính</b> (cần tra tối/cuối tuần/sát hạn)</li>
+        <li>Sợ <b>làm sai thủ tục visa</b> (hậu quả cao)</li>
+        <li>Rào cản <b>ngôn ngữ</b> → Google dịch, dễ hiểu sai</li></ul>
+        <p class="note">Không có đối tác thật — hiểu biết suy luận từ diễn đàn SV quốc tế + kinh nghiệm, cần validate bằng eval + log.</p></div>
+      <div class="card"><h3>Competitor scan</h3><ul>
+        <li><b>FAQ bot của trường:</b> trả lời cứng, không trích nguồn, không đa ngôn ngữ</li>
+        <li><b>ChatGPT/Claude thuần:</b> tiện nhưng dễ bịa, không bám tài liệu chính thức</li></ul>
+        <div style="margin-top:10px;padding:10px 12px;background:#eef6f3;border-radius:8px;border-left:3px solid var(--accent)"><b style="color:var(--accent)">Khoảng trống ISA lấp:</b> RAG bám tài liệu chính thức + <b>trích dẫn</b> + <b>guardrail/escalation</b> cho luồng pháp lý.</div></div>
+    </div>
+    <h3>AI leverage point — 2 bước đau nhất trong workflow</h3>
+    <table>
+      <tr><th>Bước</th><th>AI giúp thế nào</th><th>Vì sao AI hợp</th></tr>
+      <tr><td><b>Locate</b> (tìm nguồn đúng)</td><td>RAG truy xuất & tóm tắt đúng đoạn tài liệu chính thức, đa ngôn ngữ, 24/7</td><td>Retrieval + dịch + tóm tắt — đúng thế mạnh LLM; pain cao</td></tr>
+      <tr><td><b>Confirm</b> (tin trước khi làm)</td><td>Trả lời kèm <b>trích dẫn</b> + guardrail: luồng visa thiếu nguồn → escalate người thật</td><td>Tăng độ tin, giảm hậu quả sai; biết khi nào dừng → điểm khiến SV rời ChatGPT</td></tr>
+    </table>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 4 / 9</span></div>
+</section>
+
+<!-- P5 PRD summary -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">PRD — Tính năng · Metric · Phạm vi</div></div>
+  <div class="body">
+    <div class="grid g2">
+      <div>
+        <h3>Tính năng chính (F1–F6)</h3>
+        <table>
+          <tr><td><b>F1</b></td><td>RAG chatbot có trích dẫn (sinh hoạt + học vụ), chỉ trả lời từ nguồn + <span class="tag">updated_at</span></td></tr>
+          <tr><td><b>F2</b></td><td>Guardrail + Escalation pháp lý (LEGAL/uncertain → không bịa → người thật)</td></tr>
+          <tr><td><b>F3</b></td><td>Auth & phân quyền (JWT, hồ sơ, SV/Admin)</td></tr>
+          <tr><td><b>F4</b></td><td>Admin KB — cập nhật tài liệu nguồn (chống lỗi thời)</td></tr>
+          <tr><td><b>F5</b></td><td>Onboarding checklist + Danh bạ + Feedback</td></tr>
+          <tr><td><b>F6</b></td><td>Bộ eval có version (5 loại: happy/uncertain/out-of-scope/no-source/injection)</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>Metric</h3>
+        <p>answer_rate · groundedness · <b>hallucination_rate</b> (theo dõi & giảm tối đa) · escalation_precision · retention. Đo bằng bộ eval có version.</p>
+        <h3 style="margin-top:14px">Nguyên tắc phi chức năng</h3>
+        <ul><li><b>Precision-first</b> cho luồng pháp lý (cost-of-error cao)</li><li>Thiếu nguồn → <b>escalate, không bịa</b></li><li>Security: JWT, phân quyền, chống prompt injection</li></ul>
+        <h3 style="margin-top:14px">Out-of-scope</h3>
+        <p>Tư vấn tâm lý/y tế (chỉ chuyển hướng) · việc làm/thực tập · đặt lịch/thanh toán ngoài · app mobile native.</p>
+      </div>
+    </div>
+    <p class="note">Phụ lục: PRD đầy đủ + solution-design + ARCHITECTURE trong repo dự án (Exam/C2-App-044).</p>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 5 / 9</span></div>
+</section>
+
+<!-- P6 Unit Economics -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">Unit Economics — Cost to serve (số thật)</div></div>
+  <div class="body">
+    <div class="grid g3" style="margin-bottom:14px">
+      <div class="card"><h3>Chi phí / câu hỏi</h3><div class="big">~$0.002</div><p>≈ 50 VND (gpt-4o-mini, ~8k in / 800 out, ~3 lượt LLM)</p></div>
+      <div class="card"><h3>Chi phí / user / tháng</h3><div class="big">~$0.08</div><p>LLM, user điển hình ~40 câu/tháng (rate-limit 20/ngày)</p></div>
+      <div class="card"><h3>Hội tụ ở quy mô</h3><div class="big">~$0.10</div><p>/user/tháng (gồm hạ tầng) khi ≥1.000 user</p></div>
+    </div>
+    <h3>Tổng chi phí theo quy mô (gồm hạ tầng cố định ~$5/tháng)</h3>
+    <table>
+      <tr><th>User hoạt động</th><th>LLM ($0.08/user)</th><th>+ Hạ tầng</th><th>Tổng/tháng</th><th>/user/tháng</th></tr>
+      <tr><td>50</td><td>$4</td><td>$5</td><td><b>$9</b></td><td>$0.18</td></tr>
+      <tr><td>200</td><td>$16</td><td>$5</td><td><b>$21</b></td><td>$0.11</td></tr>
+      <tr><td>1.000</td><td>$80</td><td>~$20</td><td><b>$100</b></td><td>$0.10</td></tr>
+    </table>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Latency thực (đo từ eval)</h3><p>p50 ≈ <b>6.9s</b> · p95 ≈ <b>18s</b> end-to-end (retrieve + rerank + nhiều lượt LLM).</p></div>
+      <div class="card"><h3>Đòn bẩy giảm chi phí</h3><ul><li>Semantic cache câu lặp → giảm 50–70% LLM call</li><li>Rút gọn prompt + giảm số bước agent</li><li>Rate-limit 20/ngày chặn lạm dụng</li></ul></div>
+    </div>
+    <p class="note">Nguồn: cost-report.md (phương pháp Day13, cost là metric hạng nhất). Đơn giá gpt-4o-mini $0.15/$0.60 per 1M; embedding/rerank/vector ở free tier.</p>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 6 / 9</span></div>
+</section>
+
+<!-- P7 Sustainability / Value model -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">Mô hình giá trị (thay cho LTV/CAC)</div></div>
+  <div class="body">
+    <div class="card" style="border-left:4px solid var(--accent2);margin-bottom:14px"><p><b>ISA là sản phẩm phi lợi nhuận (không doanh thu trực tiếp)</b> → LTV/CAC/Payback truyền thống <b>không áp dụng</b>. Thay vào đó đo <b>chi phí phục vụ</b> (số thật) vs <b>giá trị deflection</b> cho khách hàng thật là <b>nhà trường/Phòng CTSV</b> (B2B2C). Con số dưới là <b>mô hình giả định để validate</b>, không phải cam kết.</p></div>
+    <div class="grid g2">
+      <div class="card"><h3>Chi phí phục vụ (thật)</h3><p>~<b>$0.10–0.18 / user / tháng</b> (trang 6). Với pilot ~300 SV → tổng ~<b>$30/tháng</b> hạ tầng + LLM.</p></div>
+      <div class="card"><h3>Giá trị deflection (giả định — cần validate)</h3>
+        <p>Giả định: CTSV trả lời 1 câu thủ tục tốn ~10 phút ≈ <b>8.300 VND</b> nhân sự/câu. ISA phục vụ 1 câu ≈ <b>50 VND</b>.</p></div>
+    </div>
+    <h3 style="margin-top:14px">Minh hoạ (giả định pilot: CTSV nhận ~1.000 câu lặp/tháng · OKR giảm 40%)</h3>
+    <table>
+      <tr><th>Hạng mục</th><th>Số lượng</th><th>Ước tính</th></tr>
+      <tr><td>Câu hỏi deflect (40% của 1.000)</td><td>~400 câu/tháng</td><td>—</td></tr>
+      <tr><td>Nhân sự CTSV tiết kiệm</td><td>400 × 8.300 VND</td><td><b>~3.3 triệu VND/tháng</b></td></tr>
+      <tr><td>Chi phí ISA phục vụ 400 câu đó</td><td>400 × 50 VND</td><td>~20.000 VND</td></tr>
+      <tr><td><b>Tỷ lệ giá trị / chi phí</b></td><td>—</td><td><b>~160×</b> (giả định)</td></tr>
+    </table>
+    <p class="note">⚠️ Mọi con số ở bảng này là <b>giả định minh hoạ</b> (khối lượng câu hỏi, đơn giá nhân sự) — phải kiểm bằng log thật + phối hợp CTSV. Không dùng làm cam kết tài chính. Nếu productize B2B, hướng định giá tương lai: phí/SV/năm (chưa xác lập).</p>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 7 / 9</span></div>
+</section>
+
+<!-- P8 Roadmap + OKR -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">Roadmap (Now/Next/Later) + OKR</div></div>
+  <div class="body">
+    <div class="nnl3" style="margin-bottom:14px">
+      <div class="c now"><h3>NOW</h3><p>① Câu hỏi visa/pháp lý không bịa, có lối thoát người thật <b>(F2)</b></p><p>② SV mới mất phương hướng: làm gì trước, liên hệ ai <b>(F5)</b></p></div>
+      <div class="c next"><h3>NEXT</h3><p>③ Trả lời đúng & có nguồn cho phổ rộng <b>(F1 RAG)</b></p><p>④ Nội dung không lỗi thời <b>(F4)</b></p><p>⑤ Biết AI đủ tốt để tin & mở rộng <b>(F6 eval)</b></p></div>
+      <div class="c later"><h3>LATER</h3><p>⑥ Trợ lý toàn vòng đời & chủ động (nhắc hạn visa)</p><p>⑦ Phân phối chính thức: tích hợp CTSV rút ngắn thủ tục</p></div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--accent)"><h3>Objective (quý NOW)</h3><p style="font-size:15px;color:var(--ink)"><i>“SV quốc tế năm nhất tự tin xử lý đúng thủ tục quan trọng ngay từ ngày đầu — không lạc lối, không sợ làm sai visa.”</i></p></div>
+    <table style="margin-top:10px">
+      <tr><th>KR</th><th>Loại</th><th>Mục tiêu (có số)</th></tr>
+      <tr><td>KR1</td><td>Leading</td><td>≥ <b>60%</b> SV quốc tế năm nhất dùng ISA ≥1 lần trong 2 tuần đầu</td></tr>
+      <tr><td>KR2</td><td>Lagging</td><td>Giảm ≥ <b>40%</b> câu hỏi thủ tục lặp mà CTSV phải trả lời tay (deflection)</td></tr>
+      <tr><td>KR3</td><td>Quality</td><td><b>NPS ≥ 40</b>; 100% câu visa/pháp lý chuyển người thật đúng lúc (0 ca AI tự phán)</td></tr>
+    </table>
+    <p class="note">Roadmap = thứ tự ưu tiên (không ngày tháng), mỗi ô là một vấn đề. OKR đo outcome, không đo Output.</p>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package</span><span>Trang 8 / 9</span></div>
+</section>
+
+<!-- P9 Dependency + Critical Path -->
+<section class="page">
+  <div class="head"><div class="brand">ISA<span>.</span></div><div class="ptitle">Dependency Map + Critical Path</div></div>
+  <div class="body">
+    <h3>3 external dependency — mỗi Tier-1 có Plan B deploy ≤24h</h3>
+    <table style="margin-bottom:14px">
+      <tr><th>Tier</th><th>Dependency</th><th>Worst-case</th><th>Plan B</th></tr>
+      <tr><td><span class="badge b-crit">1</span></td><td><b>LLM API</b> (Anthropic/OpenAI)</td><td>Rate-limit/khóa/tăng giá 5× → product down</td><td>Abstraction layer đa nhà cung cấp (Claude↔Gemini/GPT)</td></tr>
+      <tr><td><span class="badge b-crit">1</span></td><td><b>Hosting/Cloud</b> (free tier)</td><td>Hết free tier / region down → offline</td><td>Container portable, redeploy Render/Fly/VPS</td></tr>
+      <tr><td><span class="badge b-high">2</span></td><td><b>Nguồn tài liệu chính thức</b> (KB)</td><td>Nguồn đổi/đóng → KB lỗi thời</td><td>Snapshot + updated_at; admin xác minh; feed CTSV</td></tr>
+    </table>
+    <h3>Critical Path cho cột NOW (chuỗi dài nhất, tuần tự)</h3>
+    <div class="flowrow">
+      <div class="step crit"><b>① Thu thập & xác minh KB</b><br>DATA</div><span class="arrow">→</span>
+      <div class="step crit"><b>② Ranh giới pháp lý + rule escalation</b><br>LEGAL</div><span class="arrow">→</span>
+      <div class="step crit"><b>③ Chat + phân loại intent</b></div><span class="arrow">→</span>
+      <div class="step crit"><b>④ Guardrail + Escalation</b></div><span class="arrow">→</span>
+      <div class="step crit"><b>⑤ Eval an toàn luồng visa</b></div><span class="arrow">→</span>
+      <div class="step crit"><b>⑥ Deploy pilot</b></div>
+    </div>
+    <div class="card" style="margin-top:14px;border-left:4px solid var(--accent2)"><p><b>Insight:</b> Data + Legal Compliance gần như luôn nằm trên Critical Path của AI startup — ở ISA đúng là 2 task đầu chuỗi. Task phụ (F5 onboarding, U6 đa ngôn ngữ) chạy song song, không quyết định ngày launch. “Không có Plan B = kinh doanh nhà thuê”.</p></div>
+  </div>
+  <div class="foot"><span>ISA · Milestone 1 Investor Package · Đỗ Việt Anh 2A202601008</span><span>Trang 9 / 9</span></div>
+</section>
+
+<script>
+  const pages=[...document.querySelectorAll('.page')];let i=0;
+  function go(n){i=Math.max(0,Math.min(pages.length-1,n));pages.forEach((p,idx)=>p.classList.toggle('show',idx===i));}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(i+1);if(e.key==='ArrowLeft')go(i-1);});
+  go(0);
+</script>
+</body>
+</html>
